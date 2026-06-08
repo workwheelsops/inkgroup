@@ -1,0 +1,51 @@
+{
+  "name": "pmi-member-analysis-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-06-08",
+  "observability": {
+    "enabled": true
+  },
+  "routes": [
+    {
+      "pattern": "api.yourdomain.com/pmi/member-analysis",
+      "zone_name": "yourdomain.com"
+    }
+  ],
+  "containers": [
+    {
+      "class_name": "PmiAnalysisContainer",
+      "image": "./container/Dockerfile",
+      "max_instances": 2,
+      "instance_type": "standard-1",
+      "constraints": {
+        "regions": ["WEUR"],
+        "jurisdiction": "eu"
+      }
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "PMI_ANALYSIS_CONTAINER",
+        "class_name": "PmiAnalysisContainer"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["PmiAnalysisContainer"]
+    }
+  ],
+  "vars": {
+    "CONTAINER_INSTANCE_NAME": "pmi-member-analysis",
+    "ACTION_TIMEOUT_MS": "42000",
+    "R2_BUCKET": "pmi-member-analysis-template",
+    "R2_ACCOUNT_ID": "replace-with-cloudflare-account-id",
+    "R2_TEMPLATE_KEY": "templates/pmi-member-analysis-template.xlsx"
+  },
+  "secrets_store_secrets": [],
+  "secrets": {
+    "required": ["ACTION_API_KEY", "R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY"]
+  }
+}

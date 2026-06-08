@@ -1,0 +1,63 @@
+openapi: 3.1.0
+info:
+  title: PMI Member Analysis API
+  version: 0.1.0
+servers:
+  - url: https://api.yourdomain.com
+paths:
+  /pmi/member-analysis:
+    post:
+      operationId: createPmiMemberAnalysisWorkbook
+      summary: Create a completed PMI member analysis workbook from a PDF.
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - openaiFileIdRefs
+              properties:
+                openaiFileIdRefs:
+                  type: array
+                  description: One or more uploaded PDF file references supplied by ChatGPT. At runtime each entry contains name, id, mime_type, and download_link.
+                  items:
+                    type: string
+      responses:
+        "200":
+          description: Completed Excel workbook.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  openaiFileResponse:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        - name
+                        - mime_type
+                        - content
+                      properties:
+                        name:
+                          type: string
+                        mime_type:
+                          type: string
+                        content:
+                          type: string
+                          format: byte
+        "401":
+          description: Missing or invalid API key.
+        "413":
+          description: PDF is too large.
+        "422":
+          description: PDF could not be parsed.
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
