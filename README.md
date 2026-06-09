@@ -3,7 +3,7 @@
 Cloudflare deployment scaffold for a GPT Action endpoint at:
 
 ```text
-https://api.energysaverai.uk/pmi/member-analysis
+https://api.fluentai.uk/pmi/member-analysis
 ```
 
 The Worker validates `x-api-key` against the `ACTION_API_KEY` secret, removes that header before forwarding, and proxies the request body to a Cloudflare Container without reading or logging uploaded content. The Python/FastAPI container downloads the GPT Action `openaiFileIdRefs` PDF into memory, loads the Excel template from R2 through the S3-compatible API, and returns a completed workbook in `openaiFileResponse`.
@@ -57,7 +57,7 @@ npx wrangler secret put R2_SECRET_ACCESS_KEY
 
 Update `wrangler.jsonc`:
 
-- The Worker route is configured for `api.energysaverai.uk`.
+- The Worker route is configured for `api.fluentai.uk`.
 - Replace `R2_BUCKET` and `R2_ACCOUNT_ID`.
 - Adjust `max_instances` if expected concurrency is higher.
 - Keep the route path as `/pmi/member-analysis`.

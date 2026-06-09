@@ -7,8 +7,8 @@
   },
   "routes": [
     {
-      "pattern": "api.energysaverai.uk/pmi/member-analysis",
-      "zone_name": "energysaverai.uk"
+      "pattern": "api.fluentai.uk/pmi/member-analysis",
+      "zone_name": "fluentai.uk"
     }
   ],
   "containers": [
