@@ -3,7 +3,7 @@ info:
   title: PMI Member Analysis API
   version: 0.1.0
 servers:
-  - url: https://api.yourdomain.com
+  - url: https://api.energysaverai.uk
 paths:
   /pmi/member-analysis:
     post:

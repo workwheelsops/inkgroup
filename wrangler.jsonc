@@ -7,8 +7,8 @@
   },
   "routes": [
     {
-      "pattern": "api.yourdomain.com/pmi/member-analysis",
-      "zone_name": "yourdomain.com"
+      "pattern": "api.energysaverai.uk/pmi/member-analysis",
+      "zone_name": "energysaverai.uk"
     }
   ],
   "containers": [
