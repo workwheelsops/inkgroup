@@ -36,3 +36,8 @@ jobs:
           ACTION_API_KEY: ${{ secrets.ACTION_API_KEY }}
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+
+      - name: Show Wrangler logs on failure
+        if: failure()
+        run: |
+          find "$HOME/.config/.wrangler/logs" -type f -maxdepth 1 -print -exec tail -n 240 {} \; || true
