@@ -41,7 +41,7 @@
     "CONTAINER_INSTANCE_NAME": "pmi-member-analysis",
     "ACTION_TIMEOUT_MS": "42000",
     "R2_BUCKET": "pmi-member-analysis-template",
-    "R2_ACCOUNT_ID": "replace-with-cloudflare-account-id",
+    "R2_ACCOUNT_ID": "4df3a8ac5157d3609f2d6cf19d42f034",
     "R2_TEMPLATE_KEY": "templates/pmi-member-analysis-template.xlsx"
   },
   "secrets_store_secrets": [],
