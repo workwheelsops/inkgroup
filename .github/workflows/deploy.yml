@@ -19,23 +19,25 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Deploy
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: "4"
-          command: deploy
-          secrets: |
-            ACTION_API_KEY
-            R2_ACCESS_KEY_ID
-            R2_SECRET_ACCESS_KEY
+      - name: Upload Worker secrets
+        run: |
+          node -e "const fs = require('fs'); fs.writeFileSync('cf-secrets.json', JSON.stringify({ ACTION_API_KEY: process.env.ACTION_API_KEY, R2_ACCESS_KEY_ID: process.env.R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY: process.env.R2_SECRET_ACCESS_KEY }))"
+          npx wrangler secret bulk cf-secrets.json
+          rm cf-secrets.json
         env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           ACTION_API_KEY: ${{ secrets.ACTION_API_KEY }}
           R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+
+      - name: Deploy
+        run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Show Wrangler logs on failure
         if: failure()
